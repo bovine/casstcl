@@ -24,14 +24,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: install dependencies
       run: |
+        echo "deb https://debian.datastax.com/enterprise/ stable main" | sudo tee -a /etc/apt/sources.list.d/datastax.sources.list
+        curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
         sudo apt-get update
-        sudo apt-get install -y tcl-dev wget multiarch-support
-        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.35.0/libuv1_1.35.0-1_amd64.deb
-        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dse/v1.10.3/dse-cpp-driver_1.10.3-1_amd64.deb
-        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dse/v1.10.3/dse-cpp-driver-dev_1.10.3-1_amd64.deb
-        sudo dpkg -i libuv1_1.35.0-1_amd64.deb
-        sudo dpkg -i dse-cpp-driver_1.10.3-1_amd64.deb
-        sudo dpkg -i dse-cpp-driver-dev_1.10.3-1_amd64.deb
+        sudo apt-get install -y tcl-dev multiarch-support
+        sudo apt-get install -y dse-cpp-driver dse-cpp-driver-dev dse-libcassandra
+        
+#        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.35.0/libuv1_1.35.0-1_amd64.deb
+#        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dse/v1.10.3/dse-cpp-driver_1.10.3-1_amd64.deb
+#        wget https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dse/v1.10.3/dse-cpp-driver-dev_1.10.3-1_amd64.deb
+#        sudo dpkg -i libuv1_1.35.0-1_amd64.deb
+#        sudo dpkg -i dse-cpp-driver_1.10.3-1_amd64.deb
+#        sudo dpkg -i dse-cpp-driver-dev_1.10.3-1_amd64.deb
+
     - name: configure
       run: |
         autoreconf
